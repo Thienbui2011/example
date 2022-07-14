@@ -17,6 +17,7 @@ use App\Http\Controllers\Controller;
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::get('/example', function () {
     return view('index');
 });
@@ -28,3 +29,20 @@ Route::group(['prefix'=>'example', 'as'=>'example.'], function(){
     Route::put('update/{id}', 'App\Http\Controllers\ExampleController@update')->name('update');
     Route::delete('destroy/{id}', 'App\Http\Controllers\ExampleController@destroy')->name('destroy');
 });
+
+Route::group(['prefix'=>'auth', 'as'=>'auth.'], function(){
+    Route::get('/login', 'App\Http\Controllers\Admin\LoginController@login')->name('login');
+    Route::post('/post/login', 'App\Http\Controllers\Admin\LoginController@postLogin')->name('post_login');
+});
+
+//Admin
+Route::group(['middleware' => 'auth.login', 'prefix' => 'admin', 'namespace' => 'Admin'], function(){
+    Route::get('/home', function(){
+        return view('admin.page.home.index');
+    });
+});
+
+//Login
+// Route::get('/login', function(){
+//     return view('admin.page.auth.login');
+// });

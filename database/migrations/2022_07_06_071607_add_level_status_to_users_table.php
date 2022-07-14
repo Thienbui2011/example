@@ -16,6 +16,7 @@ class AddLevelStatusToUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->tinyInteger('level')->after('password')->default(0);
             $table->tinyInteger('status')->after('level')->default(0);
+            $table->integer('phone_number')->after('level')->nullable();
         });
     }
 
@@ -27,7 +28,7 @@ class AddLevelStatusToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['level', 'status']);
+            $table->dropColumn(['level', 'status', 'phone']);
         });
     }
 }
